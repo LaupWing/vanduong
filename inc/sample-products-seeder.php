@@ -124,10 +124,72 @@ function vanduong_seed_products()
         }
 
         $product->save();
+
+        // Attach a relevant placeholder image so the shop isn't empty.
+        $image_id = vanduong_sideload_product_image($product->get_id(), $p);
+        if ($image_id) {
+            $product->set_image_id($image_id);
+            $product->save();
+        }
+
         $created++;
     }
 
     return array('created' => $created, 'skipped' => $skipped);
+}
+
+/**
+ * Map a product category to an image search keyword.
+ *
+ * @param string $cat
+ * @return string
+ */
+function vanduong_image_keyword($cat)
+{
+    $map = array(
+        'Nến thơm'          => 'candle',
+        'Gốm sứ'            => 'pottery',
+        'Xà phòng thủ công' => 'soap',
+        'Đồ trang trí'      => 'home,decor',
+        'Phụ kiện'          => 'handmade',
+    );
+    return isset($map[$cat]) ? $map[$cat] : 'handmade';
+}
+
+/**
+ * Download a placeholder image into the media library and return its attachment ID.
+ * Tries a keyword image first, then a stable random fallback. Returns 0 on failure.
+ *
+ * @param int   $product_id
+ * @param array $p Product data (uses 'cat' and 'sku').
+ * @return int
+ */
+function vanduong_sideload_product_image($product_id, $p)
+{
+    if (! $product_id) {
+        return 0;
+    }
+
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+
+    $lock    = abs(crc32($p['sku'])) % 1000;
+    $keyword = rawurlencode(vanduong_image_keyword($p['cat']));
+
+    $sources = array(
+        'https://loremflickr.com/600/600/' . $keyword . '?lock=' . $lock,
+        'https://picsum.photos/seed/' . rawurlencode($p['sku']) . '/600/600',
+    );
+
+    foreach ($sources as $url) {
+        $id = media_sideload_image($url, $product_id, $p['name'], 'id');
+        if (! is_wp_error($id) && $id) {
+            return (int) $id;
+        }
+    }
+
+    return 0;
 }
 
 /**

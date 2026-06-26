@@ -110,3 +110,79 @@
     transition: none;
   }
 }
+
+/* ----------------------------------------------------------------------
+   WooCommerce — align default markup with the Vanduong theme
+   ---------------------------------------------------------------------- */
+@layer components {
+  /* Buttons */
+  .woocommerce a.button,
+  .woocommerce button.button,
+  .woocommerce input.button,
+  .woocommerce #respond input#submit,
+  .woocommerce a.button.alt,
+  .woocommerce button.button.alt,
+  .woocommerce input.button.alt {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-foreground bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground shadow-[3px_3px_0_0_var(--color-foreground)] transition-all;
+  }
+  .woocommerce a.button:hover,
+  .woocommerce button.button:hover,
+  .woocommerce input.button:hover,
+  .woocommerce #respond input#submit:hover,
+  .woocommerce a.button.alt:hover,
+  .woocommerce button.button.alt:hover,
+  .woocommerce input.button.alt:hover {
+    @apply -translate-y-0.5 bg-accent text-accent-foreground shadow-[5px_5px_0_0_var(--color-foreground)];
+  }
+
+  /* Prices */
+  .woocommerce div.product p.price,
+  .woocommerce div.product span.price {
+    @apply text-2xl font-bold text-primary;
+  }
+  .woocommerce div.product p.price del,
+  .woocommerce div.product span.price del {
+    @apply text-base font-normal text-muted-foreground;
+  }
+
+  /* Single product title */
+  .woocommerce div.product .product_title {
+    @apply font-display text-3xl font-bold tracking-tight md:text-4xl;
+  }
+
+  /* Quantity input */
+  .woocommerce .quantity .qty {
+    @apply rounded-lg border-2 border-foreground bg-card px-2 py-2 text-center font-bold;
+  }
+
+  /* Sale flash */
+  .woocommerce span.onsale {
+    @apply inline-flex items-center rounded-full border-2 border-foreground bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent-foreground;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  /* Tabs */
+  .woocommerce div.product .woocommerce-tabs ul.tabs li {
+    @apply rounded-t-lg border-2 border-foreground bg-card;
+  }
+  .woocommerce div.product .woocommerce-tabs ul.tabs li.active {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  /* Result count / ordering on shop */
+  .woocommerce .woocommerce-result-count,
+  .woocommerce .woocommerce-ordering {
+    @apply text-sm text-muted-foreground;
+  }
+
+  /* Notices */
+  .woocommerce-message,
+  .woocommerce-info,
+  .woocommerce-error {
+    @apply rounded-xl border-2 border-foreground bg-card text-sm font-medium text-foreground;
+  }
+  .woocommerce-message {
+    border-left-color: var(--color-primary);
+  }
+}
