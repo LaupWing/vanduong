@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@source "../*.php";
+@source "../template-parts/**/*.php";
+
+:root {
+  --background: #fdf2f6;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --primary: #ec4899;
+  --primary-foreground: #ffffff;
+  --secondary: #fce7f0;
+  --secondary-foreground: #1a1a1a;
+  --muted: #fce7f0;
+  --muted-foreground: #6b6b6b;
+  --accent: #f472b6;
+  --accent-foreground: #1a1a1a;
+  --border: #1a1a1a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+
+  /* Fonts — DM Sans (body) + Space Grotesk (headings) */
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  /* Animations */
+  --animate-fade-in-up: fade-in-up 0.8s ease-out forwards;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(2rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans bg-background text-foreground;
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+}
+
+@layer components {
+  /* Desktop primary nav */
+  .vanduong-menu a {
+    @apply text-sm font-semibold text-foreground transition-colors hover:text-primary;
+  }
+  .vanduong-menu .current-menu-item > a,
+  .vanduong-menu .current-menu-ancestor > a {
+    @apply text-primary;
+  }
+
+  /* Mobile primary nav */
+  .vanduong-menu-mobile a {
+    @apply block border-b border-border py-3 text-lg font-bold text-foreground transition-colors hover:text-primary;
+  }
+
+  /* Footer nav */
+  .vanduong-menu-footer a {
+    @apply text-sm text-background/60 transition-colors hover:text-background;
+  }
+}

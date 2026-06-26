@@ -1,0 +1,16 @@
+/*
+Theme Name: Vanduong
+Theme URI: https://snelstack.com
+Author: Loc Nguyen — Snelstack
+Author URI: https://snelstack.com
+Description: Custom WooCommerce theme for Vanduong, built with Tailwind CSS.
+Version: 0.1.0
+Requires at least: 6.0
+Tested up to: 7.0
+Requires PHP: 8.0
+Text Domain: vanduong
+WC requires at least: 8.0
+WC tested up to: 9.0
+*/
+
+/* Compiled Tailwind output lives in assets/css/main.css and is enqueued from functions.php */
