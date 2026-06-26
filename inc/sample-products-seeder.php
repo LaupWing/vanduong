@@ -177,16 +177,34 @@ function vanduong_sideload_product_image($product_id, $p)
     $lock    = abs(crc32($p['sku'])) % 1000;
     $keyword = rawurlencode(vanduong_image_keyword($p['cat']));
 
+    // Note: these URLs have no file extension, so we download them manually and
+    // give the sideload an explicit .jpg name (media_sideload_image would reject them).
     $sources = array(
-        'https://loremflickr.com/600/600/' . $keyword . '?lock=' . $lock,
-        'https://picsum.photos/seed/' . rawurlencode($p['sku']) . '/600/600',
+        'https://loremflickr.com/800/800/' . $keyword . '?lock=' . $lock,
+        'https://picsum.photos/seed/' . rawurlencode($p['sku']) . '/800/800',
     );
 
     foreach ($sources as $url) {
-        $id = media_sideload_image($url, $product_id, $p['name'], 'id');
-        if (! is_wp_error($id) && $id) {
-            return (int) $id;
+        $tmp = download_url($url, 30);
+        if (is_wp_error($tmp)) {
+            continue;
         }
+
+        $file = array(
+            'name'     => sanitize_file_name($p['sku'] . '.jpg'),
+            'tmp_name' => $tmp,
+        );
+
+        $id = media_handle_sideload($file, $product_id, $p['name']);
+
+        if (is_wp_error($id)) {
+            if (file_exists($tmp)) {
+                @unlink($tmp);
+            }
+            continue;
+        }
+
+        return (int) $id;
     }
 
     return 0;
@@ -223,18 +241,18 @@ function vanduong_render_seeder_page()
 
     if (isset($_POST['vanduong_seeder_action']) && check_admin_referer('vanduong_seeder')) {
         if (! class_exists('WooCommerce')) {
-            $notice = '<div class="notice notice-error"><p>' . esc_html__('WooCommerce chưa được kích hoạt. Hãy bật WooCommerce trước.', 'vanduong') . '</p></div>';
+            $notice = '<div class="notice notice-error"><p>' . esc_html__('WooCommerce is niet geactiveerd. Activeer WooCommerce eerst.', 'vanduong') . '</p></div>';
         } elseif ('seed' === $_POST['vanduong_seeder_action']) {
             $r = vanduong_seed_products();
             $notice = '<div class="notice notice-success"><p>' . sprintf(
-                esc_html__('Hoàn tất: đã tạo %1$d sản phẩm, bỏ qua %2$d sản phẩm đã tồn tại.', 'vanduong'),
+                esc_html__('Klaar: %1$d producten aangemaakt, %2$d bestaande overgeslagen.', 'vanduong'),
                 (int) $r['created'],
                 (int) $r['skipped']
             ) . '</p></div>';
         } elseif ('delete' === $_POST['vanduong_seeder_action']) {
             $n = vanduong_delete_seeded_products();
             $notice = '<div class="notice notice-success"><p>' . sprintf(
-                esc_html__('Đã xóa %d sản phẩm mẫu.', 'vanduong'),
+                esc_html__('%d voorbeeldproducten verwijderd.', 'vanduong'),
                 (int) $n
             ) . '</p></div>';
         }
@@ -243,17 +261,17 @@ function vanduong_render_seeder_page()
     $count = count(vanduong_sample_products());
     ?>
     <div class="wrap">
-        <h1><?php esc_html_e('Seeder sản phẩm Vanduong', 'vanduong'); ?></h1>
+        <h1><?php esc_html_e('Vanduong productseeder', 'vanduong'); ?></h1>
         <?php echo $notice; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
         <?php if (! class_exists('WooCommerce')) : ?>
-            <div class="notice notice-warning"><p><?php esc_html_e('WooCommerce chưa được kích hoạt. Hãy bật WooCommerce để dùng tính năng này.', 'vanduong'); ?></p></div>
+            <div class="notice notice-warning"><p><?php esc_html_e('WooCommerce is niet geactiveerd. Activeer WooCommerce om deze functie te gebruiken.', 'vanduong'); ?></p></div>
         <?php endif; ?>
 
         <p>
             <?php
             printf(
-                esc_html__('Tạo %d sản phẩm mẫu tiếng Việt (nến thơm, gốm sứ, xà phòng, đồ trang trí, phụ kiện) để bạn có dữ liệu xem thử trong cửa hàng. Thao tác này an toàn để chạy lại — sản phẩm đã tồn tại sẽ được bỏ qua.', 'vanduong'),
+                esc_html__('Maak %d voorbeeldproducten aan (geurkaarsen, keramiek, zeep, decoratie, accessoires) zodat je iets in de winkel kunt bekijken. Veilig om opnieuw uit te voeren — bestaande producten worden overgeslagen. Bij elk product wordt automatisch een afbeelding gedownload.', 'vanduong'),
                 (int) $count
             );
             ?>
@@ -262,10 +280,10 @@ function vanduong_render_seeder_page()
         <form method="post" style="margin-top:1.5rem;display:flex;gap:.75rem;align-items:center;">
             <?php wp_nonce_field('vanduong_seeder'); ?>
             <button type="submit" name="vanduong_seeder_action" value="seed" class="button button-primary">
-                <?php printf(esc_html__('Seed %d sản phẩm', 'vanduong'), (int) $count); ?>
+                <?php printf(esc_html__('%d producten seeden', 'vanduong'), (int) $count); ?>
             </button>
-            <button type="submit" name="vanduong_seeder_action" value="delete" class="button button-secondary" onclick="return confirm('<?php echo esc_js(__('Xóa toàn bộ sản phẩm mẫu?', 'vanduong')); ?>');">
-                <?php esc_html_e('Xóa sản phẩm mẫu', 'vanduong'); ?>
+            <button type="submit" name="vanduong_seeder_action" value="delete" class="button button-secondary" onclick="return confirm('<?php echo esc_js(__('Alle voorbeeldproducten verwijderen?', 'vanduong')); ?>');">
+                <?php esc_html_e('Voorbeeldproducten verwijderen', 'vanduong'); ?>
             </button>
         </form>
     </div>
