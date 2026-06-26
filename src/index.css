@@ -83,3 +83,30 @@
     @apply text-sm text-background/60 transition-colors hover:text-background;
   }
 }
+
+/* Hide the native scrollbar on the products carousel track */
+.vanduong-products-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.vanduong-products-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Per-card reveal animation for the products carousel */
+.vanduong-product-reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.vanduong-product-reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .vanduong-product-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

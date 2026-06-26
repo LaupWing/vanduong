@@ -73,6 +73,11 @@ function vanduong_scripts()
             true
         );
     }
+
+    // Enable WooCommerce AJAX add-to-cart everywhere (e.g. the front-page product carousel).
+    if (class_exists('WooCommerce') && get_option('woocommerce_enable_ajax_add_to_cart') === 'yes') {
+        wp_enqueue_script('wc-add-to-cart');
+    }
 }
 add_action('wp_enqueue_scripts', 'vanduong_scripts');
 

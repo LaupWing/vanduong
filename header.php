@@ -18,34 +18,28 @@
 
 <!-- Navbar -->
 <nav class="w-full border-b-2 border-foreground bg-background">
-    <div class="grid grid-cols-3 items-stretch">
+    <div class="flex items-stretch">
         <!-- Left: menu button -->
-        <div class="flex items-stretch justify-self-start">
-            <button id="mobile-menu-btn" class="flex w-14 items-center justify-center border-r-2 border-foreground text-foreground hover:bg-muted transition-colors self-stretch md:w-16" aria-label="<?php esc_attr_e('Mở menu', 'vanduong'); ?>">
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
-            </button>
-        </div>
+        <button id="mobile-menu-btn" class="flex w-14 shrink-0 items-center justify-center border-r-2 border-foreground text-foreground transition-colors hover:bg-muted md:w-16" aria-label="<?php esc_attr_e('Mở menu', 'vanduong'); ?>">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+        </button>
 
         <!-- Center: brand -->
-        <div class="flex items-center justify-center px-2 py-4">
-            <a href="<?php echo esc_url(home_url('/')); ?>" class="flex items-center" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
-                <?php if (has_custom_logo()) : ?>
-                    <?php the_custom_logo(); ?>
-                <?php else : ?>
-                    <span class="font-display text-2xl font-bold tracking-tight md:text-3xl"><?php bloginfo('name'); ?></span>
-                <?php endif; ?>
-            </a>
-        </div>
+        <a href="<?php echo esc_url(home_url('/')); ?>" class="flex flex-1 items-center justify-center px-4 py-4" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
+            <?php if (has_custom_logo()) : ?>
+                <?php the_custom_logo(); ?>
+            <?php else : ?>
+                <span class="font-display text-2xl font-bold tracking-tight md:text-3xl"><?php bloginfo('name'); ?></span>
+            <?php endif; ?>
+        </a>
 
         <!-- Right: cart -->
-        <div class="flex items-stretch justify-self-end self-stretch">
-            <?php if (class_exists('WooCommerce')) : ?>
-                <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="relative flex w-14 items-center justify-center border-l-2 border-foreground text-foreground hover:bg-muted transition-colors self-stretch md:w-16" aria-label="<?php esc_attr_e('Giỏ hàng', 'vanduong'); ?>">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-                    <span class="vanduong-cart-count absolute right-1 top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full border-2 border-foreground bg-accent px-1 text-[10px] font-bold text-accent-foreground" data-count="<?php echo esc_attr(vanduong_cart_count()); ?>"><?php echo esc_html(vanduong_cart_count()); ?></span>
-                </a>
-            <?php endif; ?>
-        </div>
+        <?php if (class_exists('WooCommerce')) : ?>
+            <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="relative flex w-14 shrink-0 items-center justify-center border-l-2 border-foreground text-foreground transition-colors hover:bg-muted md:w-16" aria-label="<?php esc_attr_e('Giỏ hàng', 'vanduong'); ?>">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                <span class="vanduong-cart-count absolute right-1 top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full border-2 border-foreground bg-accent px-1 text-[10px] font-bold text-accent-foreground" data-count="<?php echo esc_attr(vanduong_cart_count()); ?>"><?php echo esc_html(vanduong_cart_count()); ?></span>
+            </a>
+        <?php endif; ?>
     </div>
 </nav>
 
