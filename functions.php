@@ -51,13 +51,22 @@ function vanduong_scripts()
         null
     );
 
-    // Compiled Tailwind CSS.
+    // Compiled Tailwind CSS. Depend on WooCommerce's stylesheets so our
+    // overrides load after them and win on equal specificity.
     $css_file = get_template_directory() . '/build/index.css';
     if (file_exists($css_file)) {
+        $deps = array();
+        if (class_exists('WooCommerce')) {
+            foreach (array('woocommerce-layout', 'woocommerce-smallscreen', 'woocommerce-general') as $wc_handle) {
+                if (wp_style_is($wc_handle, 'registered')) {
+                    $deps[] = $wc_handle;
+                }
+            }
+        }
         wp_enqueue_style(
             'vanduong-tailwind',
             get_template_directory_uri() . '/build/index.css',
-            array(),
+            $deps,
             filemtime($css_file)
         );
     }

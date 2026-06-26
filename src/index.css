@@ -185,4 +185,92 @@
   .woocommerce-message {
     border-left-color: var(--color-primary);
   }
+
+  /* Neutralise WooCommerce's default float/width on the single product columns
+     so our CSS grid controls the layout */
+  .woocommerce div.product .woocommerce-product-gallery,
+  .woocommerce div.product .summary,
+  .woocommerce div.product .entry-summary {
+    width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+  }
+
+  /* Single product gallery inside the bordered card */
+  .vanduong-gallery .woocommerce-product-gallery,
+  .vanduong-gallery .woocommerce-product-gallery__wrapper {
+    @apply m-0 w-full;
+    float: none;
+  }
+  .vanduong-gallery .woocommerce-product-gallery__image img {
+    @apply block h-auto w-full;
+  }
+  .vanduong-gallery .flex-viewport {
+    @apply rounded-t-3xl;
+  }
+  /* Gallery thumbnails row */
+  .vanduong-gallery ol.flex-control-thumbs {
+    @apply m-0 flex list-none gap-2 p-4;
+  }
+  .vanduong-gallery ol.flex-control-thumbs li {
+    @apply m-0 w-16;
+  }
+  .vanduong-gallery ol.flex-control-thumbs img {
+    @apply cursor-pointer rounded-lg border-2 border-transparent opacity-70 transition;
+  }
+  .vanduong-gallery ol.flex-control-thumbs img.flex-active,
+  .vanduong-gallery ol.flex-control-thumbs img:hover {
+    @apply border-foreground opacity-100;
+  }
+
+  /* Add-to-cart row: align quantity + button */
+  .vanduong-add-to-cart form.cart {
+    @apply flex flex-wrap items-center gap-3;
+  }
+  .vanduong-add-to-cart .quantity {
+    @apply m-0;
+  }
+  .vanduong-add-to-cart .quantity .qty {
+    @apply h-12 w-20;
+  }
+  .vanduong-add-to-cart button.single_add_to_cart_button {
+    @apply h-12 px-8;
+  }
+
+  /* Product tabs — drop the default list bullets/underline, use clean pills */
+  .woocommerce-tabs ul.tabs {
+    @apply m-0 flex list-none flex-wrap gap-2 p-0;
+    border: 0;
+  }
+  .woocommerce-tabs ul.tabs::before,
+  .woocommerce-tabs ul.tabs li::before,
+  .woocommerce-tabs ul.tabs li::after {
+    display: none !important;
+    content: none !important;
+  }
+  .woocommerce-tabs ul.tabs li {
+    @apply m-0 rounded-full border-2 border-foreground bg-card p-0;
+    background-image: none;
+  }
+  .woocommerce-tabs ul.tabs li a {
+    @apply block px-5 py-2 text-sm font-bold text-foreground no-underline;
+  }
+  .woocommerce-tabs ul.tabs li.active {
+    @apply bg-primary;
+  }
+  .woocommerce-tabs ul.tabs li.active a {
+    @apply text-primary-foreground;
+  }
+  .woocommerce-tabs .panel {
+    @apply mt-6 max-w-none leading-relaxed text-foreground;
+  }
+  .woocommerce-tabs .panel h2 {
+    @apply mb-3 font-display text-xl font-bold;
+  }
+
+  /* Related products heading */
+  .vanduong-related > h2,
+  .products > h2 {
+    @apply mb-6 font-display text-2xl font-bold tracking-tight md:text-3xl;
+  }
 }
