@@ -39,6 +39,17 @@ function vanduong_setup()
 add_action('after_setup_theme', 'vanduong_setup');
 
 /**
+ * Disable WooCommerce's default stylesheets entirely.
+ *
+ * This theme styles every WooCommerce element from scratch with Tailwind
+ * (see src/index.css), so we drop woocommerce-layout.css,
+ * woocommerce-smallscreen.css and woocommerce.css. With no base styles
+ * loaded there is nothing to override — our utilities are the only styles,
+ * so no specificity battles and no leftover purple defaults.
+ */
+add_filter('woocommerce_enqueue_styles', '__return_empty_array');
+
+/**
  * Enqueue scripts and styles.
  */
 function vanduong_scripts()
@@ -51,22 +62,15 @@ function vanduong_scripts()
         null
     );
 
-    // Compiled Tailwind CSS. Depend on WooCommerce's stylesheets so our
-    // overrides load after them and win on equal specificity.
+    // Compiled Tailwind CSS. WooCommerce's own stylesheets are disabled
+    // (see the woocommerce_enqueue_styles filter above), so this is the
+    // single source of truth for styling — no dependencies needed.
     $css_file = get_template_directory() . '/build/index.css';
     if (file_exists($css_file)) {
-        $deps = array();
-        if (class_exists('WooCommerce')) {
-            foreach (array('woocommerce-layout', 'woocommerce-smallscreen', 'woocommerce-general') as $wc_handle) {
-                if (wp_style_is($wc_handle, 'registered')) {
-                    $deps[] = $wc_handle;
-                }
-            }
-        }
         wp_enqueue_style(
             'vanduong-tailwind',
             get_template_directory_uri() . '/build/index.css',
-            $deps,
+            array(),
             filemtime($css_file)
         );
     }

@@ -112,7 +112,64 @@
 }
 
 /* ----------------------------------------------------------------------
-   WooCommerce — align default markup with the Vanduong theme
+   WooCommerce — functional shims
+   WooCommerce's own stylesheets are fully disabled (see functions.php), so
+   we re-add only the *non-visual* helpers it relied on: the screen-reader
+   text helper and the FlexSlider base rules the product gallery needs to
+   slide horizontally instead of stacking. Everything visual is themed below.
+   ---------------------------------------------------------------------- */
+
+/* Visually-hidden accessibility text (WooCommerce + WP core markup uses this) */
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* FlexSlider essentials for the single-product gallery */
+.woocommerce-product-gallery {
+  position: relative;
+}
+.flexslider {
+  margin: 0;
+  padding: 0;
+}
+.flexslider .slides {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  zoom: 1;
+}
+.flexslider .slides > li {
+  display: none;
+  -webkit-backface-visibility: hidden;
+}
+.flexslider .slides img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.flexslider .slides::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.no-js .flexslider .slides > li:first-child {
+  display: block;
+}
+.flex-viewport {
+  max-height: 2000px;
+  transition: all 1s ease;
+}
+
+/* ----------------------------------------------------------------------
+   WooCommerce — themed visual styling
    ---------------------------------------------------------------------- */
 @layer components {
   /* Buttons */
