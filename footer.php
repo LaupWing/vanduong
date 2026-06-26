@@ -16,7 +16,7 @@
 
             <!-- Footer Menu -->
             <div class="flex flex-col gap-3">
-                <h4 class="text-sm font-extrabold uppercase tracking-widest">Menu</h4>
+                <h4 class="text-sm font-extrabold uppercase tracking-widest">Danh mục</h4>
                 <?php
                 if (has_nav_menu('footer')) {
                     wp_nav_menu(array(
@@ -27,14 +27,14 @@
                         'depth'          => 1,
                     ));
                 } else {
-                    echo '<span class="text-sm text-background/40">Stel een footermenu in.</span>';
+                    echo '<span class="text-sm text-background/40">Thiết lập menu chân trang.</span>';
                 }
                 ?>
             </div>
 
             <!-- Contact / socials -->
             <div class="flex flex-col gap-3">
-                <h4 class="text-sm font-extrabold uppercase tracking-widest">Volg ons</h4>
+                <h4 class="text-sm font-extrabold uppercase tracking-widest">Theo dõi chúng tôi</h4>
                 <a href="#" class="text-sm text-background/60 hover:text-background transition-colors">Instagram</a>
                 <a href="#" class="text-sm text-background/60 hover:text-background transition-colors">Facebook</a>
             </div>
@@ -42,7 +42,7 @@
 
         <div class="mt-12 border-t border-background/20 pt-6 flex flex-col items-center justify-between gap-4 md:flex-row">
             <p class="text-xs text-background/40">
-                &copy; <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?>. Alle rechten voorbehouden.
+                &copy; <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?>. Bảo lưu mọi quyền.
             </p>
         </div>
     </div>

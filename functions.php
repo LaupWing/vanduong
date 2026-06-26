@@ -9,6 +9,9 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+// Admin: Tools → Seeder (demo WooCommerce products).
+require_once get_template_directory() . '/inc/sample-products-seeder.php';
+
 /**
  * Theme setup.
  */
@@ -29,8 +32,8 @@ function vanduong_setup()
     add_theme_support('wc-product-gallery-slider');
 
     register_nav_menus(array(
-        'primary' => __('Primary Menu', 'vanduong'),
-        'footer'  => __('Footer Menu', 'vanduong'),
+        'primary' => __('Menu chính', 'vanduong'),
+        'footer'  => __('Menu chân trang', 'vanduong'),
     ));
 }
 add_action('after_setup_theme', 'vanduong_setup');

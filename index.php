@@ -23,7 +23,7 @@ get_header();
 
         <div class="mt-10"><?php the_posts_pagination(); ?></div>
     <?php else : ?>
-        <p class="text-muted-foreground"><?php esc_html_e('Geen berichten gevonden.', 'vanduong'); ?></p>
+        <p class="text-muted-foreground"><?php esc_html_e('Không tìm thấy bài viết nào.', 'vanduong'); ?></p>
     <?php endif; ?>
 </div>
 
